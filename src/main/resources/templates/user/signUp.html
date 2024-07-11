@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/defaultLayout}"> <!-- 이친구에 의해서 따로 defaultLayout의 모습을 가져올수있다. -->
+	
+<section layout:fragment="content" class="contents">
+	<div class="sign-up-box container align-items-center"> <!-- 나중에 회원가입을 하는 영역이 요만한 상자를 만들기 위해 적어주는 것이다. -->
+		<h1>회원 가입</h1>
+		<form action="post">
+			<table class="table table-bordered table-striped">
+				<tbody>
+					<tr>
+						<td>아이디(4자 이상)</td>
+						<td class="d-flex">
+							<input type="text" id="loginId" name="loginId" placeholder="아이디를 입력하세요" class="form-control">
+							<input type="button" id="loginIdCheck" value="중복확인" class="btn btn-success">
+						</td>
+					</tr>
+					<tr>
+						<td>비밀번호</td>
+						<td>
+							<input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" class="form-control">
+						</td>
+					</tr>
+					<tr>
+						<td>비밀번호</td>
+						<td>
+							<input type="password" id="passwordCheck" name="passwordCheck" placeholder="비밀번호를 입력하세요" class="form-control">
+						</td>
+					</tr>
+					<tr>
+						<td>이름</td>
+						<td>
+							<input type="text" id="name" name="name" placeholder="이름를 입력하세요" class="form-control">
+						</td>
+					</tr>
+					<tr>
+						<td>이메일</td>
+						<td>
+							<input type="text" id="email" name="email" placeholder="이메일을 입력하세요" class="form-control">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="d-flex align-items-end">
+				<input type="button" value="보내기" class="btn btn-primary">
+			</div>
+		</form>
+	</div>		
+</section>
+
+	<th:block layout:fragment="script"> <!-- 조각으로 나타내려면 이런식으로도 가능하다. -->
+		<script> 
+			
+		</script>
+	</th:block>
+</html>
