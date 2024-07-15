@@ -18,6 +18,14 @@ public class UserBO {
 		return userRepository.findByloginId(loginId);
 	}
 	
+	// input : loginId, password
+	// output : UserEntity or Null(그 회원 가입된 사람이 없는 것)
+	public UserEntity getUserEntityByLoginIdPassword(String loginId, String password) { // and 생략 가능
+		return userRepository.findByLoginIdAndPassword(loginId, password); // 우리가 알아서 만들어야함
+				
+	}
+	
+	
 	// input : 4파라미터
 	// output : UserEntity
 	
