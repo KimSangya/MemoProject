@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+      
+<section layout:fragment="content" class="contents d-flex justify-content-center">
+	<div class="w-50">
+		<h1>글목록</h1>
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th>No.</th>
+					<th>제목</th>
+					<th>작성날짜</th>
+					<th>수정날짜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="post : ${postList}">
+					<td th:text="${post.id}">1</td>
+					<td th:text="${post.subject}">제목</td>
+					<td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2024-07-16</td> <!-- temporals.format(들어갈 함수, "나타내고 싶은 함수") -->
+					<td th:text="${post.updatedAt}">2024-07-16</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!-- 글쓰기 버튼 -->
+		<div class="d-flex justify-content-end">
+			<a href="/post/post-create-view" class="btn btn-warning">글쓰기</a>
+		</div>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+		
+    </script>
+</th:block>
