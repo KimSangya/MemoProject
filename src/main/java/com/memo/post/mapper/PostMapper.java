@@ -13,11 +13,11 @@ public interface PostMapper {
 	
 	public List<Map<String, Object>> selectPostListTest();
 	
-	public List<Post> getPostListByUserId(int userId);
+	public List<Post> selectPostListByUserId(int userId);
 	
-//	public void InsertPostListBySubjectContentMultipartFile(
-//			@Param("userId") Integer userId,
-//			@Param("subject") String subject, 
-//			@Param("content") String content,
-//			@Param("imagePath") String imagePath);
+	public void insertPost(
+			@Param("userId") int userId,
+			@Param("subject") String subject, 
+			@Param("content") String content,
+			@Param("imagePath") String imagePath);
 }
