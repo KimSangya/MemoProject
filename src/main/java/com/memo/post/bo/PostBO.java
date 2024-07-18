@@ -25,6 +25,12 @@ public class PostBO {
 		return postMapper.selectPostListByUserId(userId);
 	}
 	
+	// input : userId, postId
+	// output : Post or null (단건이니까 null값이 리턴 될 수도 있다.)
+	public Post getPostByPostIdUserId(int userId, int PostId) {
+		return postMapper.selectPostByPostIdUserId(userId, PostId) ;
+	}
+	
 	// input : 파라미터들
 	// output : X
 	public void addPost(int userId, String userLoginId,
