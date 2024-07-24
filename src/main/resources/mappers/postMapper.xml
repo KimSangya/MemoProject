@@ -64,4 +64,18 @@
 		AND
 			`id` = #{postId}	
 	</select>
+	
+	<update id="updatePostByPostId" parameterType="map">
+		UPDATE `post`
+		SET
+			`subject` = #{subject}
+			, `content` = #{content}
+			<if test="imagePath != null"> <!-- 업로드가 실패했거나 업로드가 안됐거나.. -->
+			, `imagePath` = #{imagePath}
+			</if>
+			, `updatedAt` = NOW()
+		WHERE
+			`id` = ${postId}
+			
+	</update>
 </mapper>

@@ -9,6 +9,9 @@ import java.nio.file.Paths;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component // post 도메인을 스프링 빈으로 만들어야 할 때, 내서버에서 다른 서버가 요청할때, server to server를 할 때, 스프링 빈이어야한다.
 public class FileManagerService {
 	// 자바 빈인가 스프링 빈인가를 확인할때 생각을 해야한다.
@@ -54,4 +57,38 @@ public class FileManagerService {
 		return "/images/" + directoryName + "/" + file.getOriginalFilename(); // WAS와 Images 폴더와의 연결이 안되어있을 경우에는 따로 업로드는 성공하지만, 나중에 리턴할 파일을 할수가없다.
 	}
 	
+	// 파일 삭제
+	// input : 이미지의 경로(path)
+	// output : 성공했는지 안했는지 X
+	public void deleteFile(String imagePath) { // imagePath : /images/aaaa_1721209676372/bird-7943041_640.jpg
+		// D:\kimgeonho\6_spring_project\memo\memo_workspace\images\aaaa_1721209676372/bird-7943041_640.jpg
+		// D:\\kimgeonho\\6_spring_project\\memo\\memo_workspace\\images/aaaa_1721209676372/bird-7943041_640.jpg
+		// 주소에 겹치는 /images/ 를 지운다.
+		
+		// replace는 알아서 바뀐 문자열을 리턴하게 된다.
+		Path path = Paths.get(FILE_UPLOAD_PATH + imagePath.replace("/images/", ""));
+		
+		// 삭제할 이미지가 존재하는가?
+		if(Files.exists(path)) {
+			// 이미지 삭제
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				log.info("[FileManagerService 파일 삭제] 삭제 실패. path:{}", path.toString());
+				return;
+			}
+			
+			// 폴더(directory) 삭제
+			path = path.getParent(); // 부모로드
+			if(Files.exists(path)) {
+				try {
+					Files.delete(path);
+				} catch (IOException e) {
+					log.info("[FileManagerService 폴더 삭제] 삭제 실패. path:{}", path.toString());
+					return;
+				}
+			}
+		}
+		
+	}
 }
