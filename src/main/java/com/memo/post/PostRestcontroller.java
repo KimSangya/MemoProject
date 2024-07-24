@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,6 +77,26 @@ public class PostRestcontroller {
 		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
 		result.put("result", "성공");
+		return result;
+	}
+	
+	@DeleteMapping("/delete")
+	public Map<String, Object> PostDelete(
+			@RequestParam("postId") int postId,
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			HttpSession session) {
+		
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("loginId");
+		
+		// db insert
+		postBO.deletePostByPostId(postId, userId, userLoginId, file);
+		
+		// 응답값
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		
 		return result;
 	}
 	
