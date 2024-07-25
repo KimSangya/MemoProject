@@ -93,24 +93,26 @@ public class PostBO {
 	// input : postId, userId
 	// output : X
 	
-	public void deletePostByPostId(int postId, int userId,
-			String loginId, MultipartFile file) {
+	public void deletePostByPostIdUserId(int postId, int userId) {
 		
+		// 기존글 가져오는 부분
 		Post post = postMapper.selectPostByPostIdUserId(userId, postId);
 		
+		// 원래는 있어야하는데, 만약 없다면
 		if (post == null) {
-			log.warn("[글 삭제] post is null. userId:{}", userId, postId);
+			log.info("[글 삭제] post is null. postId:{}, userId:{}", postId, userId);
 			return;
 		}
+		// post DB delete
+		// 만약 리턴 행이 1인 경우, 그 친구를 자세하게 삭제를 가능하게 할수있다.
+		int rowCount = postMapper.deletePostByPostId(postId);
 		
+		
+		// TODO: 이미지가 존재하면 삭제한다. 삭제된 행도 1일때 삭제하게 만든다.
 		// 업로드 성공 시(imagePath == null이 아닐 때) 기존 이미지가 있다면 제거
-		if(post.getImagePath() != null) {
+		if(rowCount > 0 && post.getImagePath() != null) {
 			// 폴더와 이미지 제거(서버에서)
 			fileManagerService.deleteFile(post.getImagePath());
-		}
-					
-				
-		// db insert
-		postMapper.deletePostByPostIdUserId(postId, userId);
+		}	
 	}
 }

@@ -119,22 +119,12 @@
 			$("#deleteBtn").on("click", function(){
 				// alert("삭제 버튼 클릭"); 정상화
 				let postId = $(this).data('post-id');
-				let fileName = $("#file").val();
 				// alert(postId); post의 번호를 정상적으로 가져옴
-				
-				let formData = new FormData();
-				
-				formData.append("postId", postId);
-				formData.append("file", $("#file")[0].files[0]);
 				
 				$.ajax({
 					type : "delete"
 					, url: "/post/delete"
-					, data : formData // 이친구는 사용 할 때, 조건이 있어서 따로 추가도 해야한다. enctype 
-					, enctype : "multipart/form-data" // 파일 업로드 필수 설정
-					, processData : false // 이친구는 카멜 케이스로 지정, 파일 업로드 필수 설정 하나의 스트링으로만 넘어간다면 true이지만, form 같은 넓은 속성에서 찾아 볼 수 있음.
-					, contentType : false // 파일 업로드 필수 설정, jquery ajax 함수 찾아보기		
-					
+					, data : {"postId" : postId} // 이친구는 사용 할 때, 조건이 있어서 따로 추가도 해야한다. enctype 		
 					, success:function(data) {
 						if(data.code == 200) {
 							alert("메모를 삭제하였습니다.");

@@ -20,8 +20,8 @@ public class FileManagerService {
 	
 	// 실제 업로드가 된 이미지가 저장될 서버의 경로
 	// 학원, 상수라는 의미, 깃이 관리하지 않는 공간으로 넣게 될 것이다. 맨 뒤에 / 주의 꼭 붙어야함!!!!!!!!!!!!!
-	//public static final String FILE_UPLOAD_PATH = "D:\\kimgeonho\\6_spring_project\\memo\\memo_workspace\\images/";
-	public static final String FILE_UPLOAD_PATH = "D:\\KimGeonHo\\6_springProject\\memo\\MEMO_workspace\\images/"; // 집, 상수라는 의미 
+	 public static final String FILE_UPLOAD_PATH = "D:\\kimgeonho\\6_spring_project\\memo\\memo_workspace\\images/";
+	// public static final String FILE_UPLOAD_PATH = "D:\\KimGeonHo\\6_springProject\\memo\\MEMO_workspace\\images/"; // 집, 상수라는 의미 
 	
 	// input : 업로드할 파일 MultipartFile, userLoginId (userId로 해도 되는데, 일부로 보이는 값으로 해본것이다.)
 	// output : 업로드가 끝나고 그 주소가 뭔지? String(이미지 경로)
