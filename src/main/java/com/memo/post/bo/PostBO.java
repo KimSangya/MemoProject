@@ -1,5 +1,6 @@
 package com.memo.post.bo;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,51 @@ public class PostBO {
 	@Autowired
 	private FileManagerService fileManagerService;
 	
+	// 페이징 정보 필드(limit)
+	private static final int POST_MAX_SIZE = 3;
+	
+	
 	// input : 로그인 된 사람의 userId
 	// output : List<Post>
-	public List<Post> getPostListByUserId(int userId) {
-		return postMapper.selectPostListByUserId(userId);
+	public List<Post> getPostListByUserId(int userId, Integer prevId, Integer nextId) {
+		// 게시글 번호 10 9 8 | 7 6 5  | 4 3 2 | 1
+		// 만약 내가 432 페이지에 있을 때,
+		// 1) 다음 : 2보다 작은 3개 DESC
+		// 2) 이전 : 4보다 큰 3개 ASC =>  567 => BO에서 reverse 7, 6, 5
+		// 3) 페이징 정보가 없을 때, 최신순 3 DESC해서 확인 경우는 3가지가 있음.
+		// if 문에서 따로 설정.
+		Integer standardId = null; // 기준 postId
+		String direction = null; // 방향
+		if(prevId != null) { // 2) 이전
+			standardId = prevId;
+			direction = "prev";
+			
+			List<Post> postList = postMapper.selectPostListByUserId(userId, standardId, direction, POST_MAX_SIZE);
+			// [5,6,7] => [7,6,5]
+			Collections.reverse(postList); // 뒤집고 저장
+			
+			return postList;
+		} else if(nextId != null) { // 1) 다음
+			standardId = nextId;
+			direction = "next";
+		}
+		
+		// 3) 페이징 정보 없음, 1) 다음
+		return postMapper.selectPostListByUserId(userId, standardId, direction, POST_MAX_SIZE);
 	}
+	
+	// 이전 페이지의 마지막인가?
+	public boolean isPrevLastPageByUserId(int userId, int prevId) {
+		int maxPostId = postMapper.selectPostIdByUserIdAsSort(userId, "DESC");
+		return maxPostId == prevId; // 같으면 마지막이다, 아니면 아니다.
+	}
+	
+	// 다음 페이지의 마지막인가?
+	public boolean isNextLastPageByUserId(int userId, int nextId) {
+		int minPostId = postMapper.selectPostIdByUserIdAsSort(userId, "ASC");
+		return minPostId == nextId;
+	}
+	
 	
 	// input : userId, postId
 	// output : Post or null (단건이니까 null값이 리턴 될 수도 있다.)

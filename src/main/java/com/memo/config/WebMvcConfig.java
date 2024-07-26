@@ -1,13 +1,28 @@
 package com.memo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.memo.Interceptor.Permissionlnterceptor;
 import com.memo.common.FileManagerService;
 
 @Configuration // 설정을 위한 Spring Bean
 public class WebMvcConfig implements WebMvcConfigurer { // 무조건 implements를 추가를 시켜줘야함.
+
+	@Autowired
+	private Permissionlnterceptor interceptor;
+	
+	// 인터셉터 설정
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry
+		.addInterceptor(interceptor)
+		.addPathPatterns("/**")
+		.excludePathPatterns("/error", "/css/**", "/img/**", "/user/sign-out"); // 모든 주소일때 이 주소를 사용할것이고, 안보고 싶을때는 error를 출력하게 만들것이다.
+	}
 	
 	// 이미지 path와 서버에서 업로드 된 실제 이미지와 매핑 설정, 주소의 이미지하고..
 	@Override
