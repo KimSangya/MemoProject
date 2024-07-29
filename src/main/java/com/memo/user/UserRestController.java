@@ -38,7 +38,7 @@ public class UserRestController {
 		// db 조회
 		UserEntity user = userBO.getUserEntityByLoginId(loginId);
 
-		// 이슈 테스트
+		// 이슈 테스트 !!!!!!!!!!!!!!!!!!!
 		
 		// 응답값
 		Map<String, Object> result = new HashMap<>();
